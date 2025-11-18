@@ -7,6 +7,7 @@ import be.intecbrussel.model.Category;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;
+import java.util.Optional;
 
 public class BrewerRepository {
 
@@ -43,9 +44,10 @@ public class BrewerRepository {
         brewer = em.merge(brewer);
         em.getTransaction().commit();
     }
-    public void findBrewersByName(String name){
+    public Optional<Brewer> findBrewersByName(String name){
         EntityManager em = JpaConfig.getEntityManager();
         Brewer brewer = em.find(Brewer.class,name);
+        return Optional.ofNullable(brewer);
     }
 
     public List<Object[]> findAllBrewersWithBeerCount(){

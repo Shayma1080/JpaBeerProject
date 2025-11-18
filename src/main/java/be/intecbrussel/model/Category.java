@@ -5,6 +5,8 @@ import lombok.*;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "Category")
 public class Category {

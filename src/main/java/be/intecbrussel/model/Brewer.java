@@ -5,6 +5,8 @@ import lombok.*;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "Brewer")
 public class Brewer {

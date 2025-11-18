@@ -2,6 +2,7 @@ package be.intecbrussel.model;
 import jakarta.persistence.*;
 import lombok.*;
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "Beer")
 public class Beer {
@@ -23,5 +24,10 @@ public class Beer {
     @JoinColumn(name = "Category_id")
     private Category category;
 
-
+    public Beer(String name, int alcoholPercentage, double price) {
+        this.id = id;
+        this.name = name;
+        this.alcoholPercentage = alcoholPercentage;
+        this.price = price;
+    }
 }

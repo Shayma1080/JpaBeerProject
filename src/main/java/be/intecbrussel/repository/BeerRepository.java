@@ -22,8 +22,11 @@ public class BeerRepository {
     }
     public void findById(Long id){
         EntityManager em = JpaConfig.getEntityManager();
-        em.getTransaction().begin();
-        Beer beer = em.find(Beer.class, id);
+        Beer beerAlc = new Beer();
+        if(beerAlc.getId() >=0){
+            em.getTransaction().begin();
+            Beer beer = em.find(Beer.class, id);
+        }
         em.getTransaction().commit();
     }
 
@@ -61,9 +64,10 @@ public class BeerRepository {
 
     public List<Beer> findBeersCheaperThan(double maxPrice){
         EntityManager em = JpaConfig.getEntityManager();
-        return em.createQuery("Select b from beer b where b.price <= :maxPrice", Beer.class)
+        final List<Beer> maxPrice1 = em.createQuery("Select b from beer b where b.price > 0", Beer.class)
                 .setParameter("maxPrice", maxPrice)
                 .getResultList();
+        return maxPrice1;
     }
 
 
