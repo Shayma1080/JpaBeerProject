@@ -19,15 +19,16 @@ public class BeerRepository {
         em.getTransaction().begin();
         em.persist(beer);
         em.getTransaction().commit();
+        em.close();
     }
-    public void findById(Long id){
+    public Optional<Beer> findById(Long id){
         EntityManager em = JpaConfig.getEntityManager();
-        Beer beerAlc = new Beer();
-        if(beerAlc.getId() >=0){
-            em.getTransaction().begin();
+        if(id >=0){
             Beer beer = em.find(Beer.class, id);
+            return Optional.of(beer);
         }
-        em.getTransaction().commit();
+        em.close();
+        return Optional.empty();
     }
 
     public List<Beer> findAll(){
@@ -35,13 +36,15 @@ public class BeerRepository {
         em.getTransaction().begin();
         List<Beer> beer = em.createQuery( "select b from Beer b").getResultList();
         em.getTransaction().commit();
+        em.close();
         return beer;
     }
     public void update(Beer beer) {
         EntityManager em = JpaConfig.getEntityManager();
         em.getTransaction().begin();
-        beer = em.merge(beer);
+        em.merge(beer);
         em.getTransaction().commit();
+        em.close();
     }
     public void delete(Long id) {
         EntityManager em = JpaConfig.getEntityManager();
@@ -49,11 +52,13 @@ public class BeerRepository {
         Beer beer = em.find(Beer.class, id);
         beer = em.merge(beer);
         em.getTransaction().commit();
+        em.close();
     }
     public List<Beer> findBeersByCategory(long categoryId){
         EntityManager em = JpaConfig.getEntityManager();
         Category category= em.find(Category.class,categoryId);
         return category.getBeers();
+
     }
 
     public List<Beer> findBeersByBrewer(long brewerId){

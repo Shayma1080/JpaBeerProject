@@ -25,9 +25,13 @@ public class Beer {
     private Category category;
 
     public Beer(String name, int alcoholPercentage, double price) {
-        this.id = id;
         this.name = name;
         this.alcoholPercentage = alcoholPercentage;
+        this.price = price;
+    }
+
+    public Beer(String name, double price) {
+        this.name = name;
         this.price = price;
     }
 }

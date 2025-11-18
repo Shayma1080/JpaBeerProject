@@ -22,7 +22,6 @@ public class BeerService {
     public void addBeer(Beer beer) throws SQLException {
         try{
             beerRepository.createBeer(beer);
-            em.close();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -31,12 +30,7 @@ public class BeerService {
 
     public Optional<Beer> getByIdBeer(Long id) throws SQLException {
         try{
-            Beer beer = em.find(Beer.class,id);
-            if(beer.getPrice() > 0){
-                beerRepository.findById(id);
-            }
-            em.close();
-            return Optional.of(beer);
+           return beerRepository.findById(id);
 
         }catch(Exception e){
             e.printStackTrace();
@@ -45,19 +39,19 @@ public class BeerService {
     }
 
 
-    public void getAllBeers() throws SQLException {
+    public List<Beer> getAllBeers() throws SQLException {
         try{
             beerRepository.findAll();
-            em.close();
-        }catch(Exception e){}
-
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return beerRepository.findAll();
     }
+
 
     public void updatebeer(Beer beer) throws SQLException {
         try {
-
             beerRepository.update(beer);
-            em.close();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -66,7 +60,6 @@ public class BeerService {
     public void removeBeer(Long id) throws SQLException {
         try {
             beerRepository.delete(id);
-            em.close();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -75,7 +68,6 @@ public class BeerService {
     public void getBeersByCategory(Long categoryId) throws SQLException {
         try {
             beerRepository.findBeersByCategory(categoryId);
-            em.close();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -88,18 +80,16 @@ public class BeerService {
             if (!brewer.getName().equals(brewery.getName())) {
                 beerRepository.findBeersByBrewer(breweryId);
             }
-            em.close();
         }catch(Exception e){
             e.printStackTrace();
         }
     }
 
-    public void getBeersCheaperThan(Double maxPrice) throws SQLException {
+    public void getBeersCheaperThan(double maxPrice) throws SQLException {
         try {
             if (maxPrice > 0) {
                 beerRepository.findBeersCheaperThan(maxPrice);
             }
-            em.close();
         }catch(Exception e){
             e.printStackTrace();
         }

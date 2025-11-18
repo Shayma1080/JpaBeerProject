@@ -16,7 +16,6 @@ public class BrewerService {
     public void addBrewer(Brewer brewer) throws SQLException {
         try {
             brewerRepository.createBrewer(brewer);
-            em.close();
         }catch(Exception e) {
             e.printStackTrace();
         }
@@ -25,7 +24,6 @@ public class BrewerService {
     public void getByIdBrewer(Long id) throws SQLException {
         try {
             brewerRepository.findById(id);
-            em.close();
         }catch(Exception e) {
             e.printStackTrace();
         }
@@ -35,7 +33,6 @@ public class BrewerService {
     public void getAllBrewers() throws SQLException {
         try {
             brewerRepository.findAll();
-            em.close();
         }catch(Exception e) {
             e.printStackTrace();
         }
@@ -44,7 +41,6 @@ public class BrewerService {
     public void updateBrewer(Brewer brewer) throws SQLException {
         try {
             brewerRepository.update(brewer);
-            em.close();
         }catch(Exception e) {
             e.printStackTrace();
         }
@@ -56,7 +52,6 @@ public class BrewerService {
             if (id != category.getId()) {
                 brewerRepository.delete(id);
             }
-            em.close();
         }catch(Exception e) {
             e.printStackTrace();
         }
@@ -65,7 +60,6 @@ public class BrewerService {
     public void getBrewerByName(String name) throws SQLException {
         try {
             brewerRepository.findBrewersByName(name);
-            em.close();
         }catch(Exception e) {
             e.printStackTrace();
         }
@@ -74,7 +68,6 @@ public class BrewerService {
     public void getAllBrewersWithBeerCount() throws SQLException {
         try {
             brewerRepository.findAllBrewersWithBeerCount();
-            em.close();
         }catch(Exception e) {
             e.printStackTrace();
         }
