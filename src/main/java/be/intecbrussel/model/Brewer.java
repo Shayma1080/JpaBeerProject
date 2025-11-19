@@ -19,7 +19,7 @@ public class Brewer {
     @Column(name = "Brewer_location")
     private String location;
 
-    @OneToMany(mappedBy = "brewer")
+    @OneToMany(mappedBy = "brewer", fetch = FetchType.EAGER)
     private List<Beer> beers;
 
     public Brewer(String name, String location) {

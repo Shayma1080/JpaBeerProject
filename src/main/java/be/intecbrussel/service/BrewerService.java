@@ -22,7 +22,7 @@ public class BrewerService {
         try {
             brewerRepository.createBrewer(brewer);
         }catch(Exception e) {
-            logger.warning("Brewer creation failed");
+            logger.warn("Brewer creation failed");
         }
     }
 
@@ -30,7 +30,7 @@ public class BrewerService {
         try {
            return brewerRepository.findById(id);
         }catch(Exception e) {
-            logger.warning("Brewer getting id not found");
+            logger.warn("Brewer getting id not found");
             return Optional.empty();
         }
     }
@@ -40,7 +40,7 @@ public class BrewerService {
         try {
             return brewerRepository.findAll();
         }catch(Exception e) {
-            logger.warning("Brewer getting all brewers not found");
+            logger.warn("Brewer getting all brewers not found");
             return null;
         }
 
@@ -58,7 +58,7 @@ public class BrewerService {
         try {
             brewerRepository.delete(id);
         }catch(Exception e) {
-            logger.warning("Brewer with id " + id + " not found");
+            logger.warn("Brewer with id " + id + " not found");
         }
     }
 
@@ -66,7 +66,7 @@ public class BrewerService {
         try {
             brewerRepository.findBrewersByName(name);
         }catch(Exception e) {
-            logger.warning("Brewer name not found: " + name);
+            logger.warn("Brewer name not found: " + name);
         }
     }
 
@@ -74,7 +74,7 @@ public class BrewerService {
         try {
             return brewerRepository.findAllBrewersWithBeerCount();
         }catch(Exception e) {
-            logger.warning("Brewer count not found");
+            logger.warn("Brewer count not found");
             return null;
         }
     }

@@ -21,7 +21,7 @@ public class CategoryService {
         try {
             categoryRepository.createCategory(category);
         }catch(Exception e) {
-            logger.warning("Category already exists");
+            logger.warn("Category already exists");
         }
     }
 
@@ -29,7 +29,7 @@ public class CategoryService {
         try {
             return categoryRepository.findById(id);
         }catch(Exception e) {
-            logger.warning("Category ID not found");
+            logger.warn("Category ID not found");
             return Optional.empty();
         }
     }
@@ -39,7 +39,7 @@ public class CategoryService {
         try {
             return categoryRepository.findAll();
         }catch(Exception e) {
-            logger.warning("No Category found");
+            logger.warn("No Category found");
             return null;
         }
     }
@@ -48,7 +48,7 @@ public class CategoryService {
         try {
             categoryRepository.update(category);
         }catch(Exception e) {
-            logger.warning("Category update failed");
+            logger.warn("Category update failed");
         }
     }
 
@@ -56,7 +56,7 @@ public class CategoryService {
         try {
             categoryRepository.delete(id);
         }catch(Exception e) {
-            logger.warning("Category remove failed");
+            logger.warn("Category remove failed");
         }
     }
 
@@ -64,7 +64,7 @@ public class CategoryService {
         try {
             categoryRepository.findCategoryByName(name);
         }catch(Exception e) {
-            logger.warning("Category name not found");
+            logger.warn("Category name not found");
         }
     }
 

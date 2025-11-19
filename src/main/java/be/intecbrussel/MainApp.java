@@ -17,26 +17,32 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
-import java.util.logging.Logger;
+
+import org.apache.log4j.xml.DOMConfigurator;
+import org.apache.log4j.Logger;
 
 public class MainApp {
+
     public static final Logger logger = Logger.getLogger(MainApp.class.getName());
     public static Scanner scanner = new Scanner(System.in);
     public final static EntityManager em = JpaConfig.getEntityManager();
 
     public static void main(String[] args) throws SQLException {
+        DOMConfigurator.configure(MainApp.class.getClassLoader().getResource("bluelogger.xml"));
+        logger.info("Logger initialized in blue!");
+
         BeerService beerService = new BeerService();
         BrewerService brewerService = new BrewerService();
         CategoryService categoryService = new CategoryService();
 
         //Hoofdmenu
         while (true) {
-            logger.info(" ===  Hoofdmenu  === ");
+            logger.info("\n ===  Hoofdmenu  === ");
             logger.info("1. Manage Brewers");
             logger.info("2. Manage Categories");
             logger.info("3. Manage Beers");
             logger.info("4. Exit");
-            logger.info("Enter your choice: ");
+            logger.info("\nEnter your choice: ");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -69,7 +75,7 @@ public class MainApp {
         logger.info("8. Find Beers cheaper than X");
         logger.info("9. Export beers to Json");
         logger.info("10. Back");
-        logger.info("Enter your choice: ");
+        logger.info("\nEnter your choice: ");
         int choice = scanner.nextInt();
         scanner.nextLine();
         switch (choice) {
@@ -110,7 +116,7 @@ public class MainApp {
         logger.info("6. Find Brewer by name");
         logger.info("7. Find Brewer with Beer count");
         logger.info("8. Back");
-        logger.info("Enter your choice: ");
+        logger.info("\nEnter your choice: ");
         int choice = scanner.nextInt();
         scanner.nextLine();
         switch (choice) {
@@ -147,7 +153,7 @@ public class MainApp {
         logger.info("5. Delete Category");
         logger.info("6. Find Category by name");
         logger.info("7. Back");
-        logger.info("Enter your choice: ");
+        logger.info("\nEnter your choice: ");
         int choice = scanner.nextInt();
         scanner.nextLine();
         switch (choice) {

@@ -19,7 +19,7 @@ public class JsonService {
             mapper.writeValue(new File("beers.json"), beers);
             logger.info("Beers export to: " + name);
         } catch (IOException e) {
-            logger.warning("Export faildes: " + e.getMessage());
+            logger.warn("Export faildes: " + e.getMessage());
         }
     }
 
@@ -28,7 +28,7 @@ public class JsonService {
             return mapper.readValue(new File(name), new TypeReference<List<Beer>>() {});
 
         }catch(Exception e){
-            logger.warning("Import faildes: " + e.getMessage());
+            logger.warn("Import faildes: " + e.getMessage());
             return Collections.emptyList();
         }
     }

@@ -24,7 +24,7 @@ public class BeerService {
         try{
             beerRepository.createBeer(beer);
         }catch(Exception e){
-            logger.warning("Beer creation failed");
+            logger.warn("Beer creation failed");
         }
 
     }
@@ -34,7 +34,7 @@ public class BeerService {
            return beerRepository.findById(id);
 
         }catch(Exception e){
-            logger.warning("Beer getting failed");
+            logger.warn("Beer getting failed");
             return null;
         }
 
@@ -45,7 +45,7 @@ public class BeerService {
         try{
             return beerRepository.findAll();
         }catch(Exception e){
-            logger.warning("Beers getting failed");
+            logger.warn("Beers getting failed");
         }
         return null;
     }
@@ -55,7 +55,7 @@ public class BeerService {
         try {
             beerRepository.update(beer);
         }catch(Exception e){
-            logger.warning("Beer update failed");
+            logger.warn("Beer update failed");
         }
     }
 
@@ -63,7 +63,7 @@ public class BeerService {
         try {
             beerRepository.delete(id);
         }catch(Exception e){
-            logger.warning("Beer ID not found");
+            logger.warn("Beer ID not found");
         }
     }
 
@@ -79,7 +79,7 @@ public class BeerService {
                 }
             }
         }catch(Exception e){
-            logger.warning("Beers categories ID not found");
+            logger.warn("Beers categories ID not found");
         }
     }
 
@@ -94,7 +94,7 @@ public class BeerService {
                 }
             }
         }catch(Exception e){
-            logger.warning("Beers brewers ID not found");
+            logger.warn("Beers brewers ID not found");
         }
     }
 
@@ -107,7 +107,7 @@ public class BeerService {
                 }
             }
         }catch(Exception e){
-            logger.warning("Beers is not cheaper ");
+            logger.warn("Beers is not cheaper ");
         }
     }
 }
