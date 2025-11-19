@@ -9,6 +9,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,9 +34,7 @@ public class BeerRepository {
 
     public List<Beer> findAll(){
         EntityManager em = JpaConfig.getEntityManager();
-        em.getTransaction().begin();
-        List<Beer> beer = em.createQuery( "select b from Beer b").getResultList();
-        em.getTransaction().commit();
+        List<Beer> beer = em.createQuery( "select b from Beer b",Beer.class).getResultList();
         em.close();
         return beer;
     }
@@ -50,29 +49,41 @@ public class BeerRepository {
         EntityManager em = JpaConfig.getEntityManager();
         em.getTransaction().begin();
         Beer beer = em.find(Beer.class, id);
-        beer = em.merge(beer);
+        em.merge(beer);
+        em.remove(beer);
         em.getTransaction().commit();
         em.close();
     }
     public List<Beer> findBeersByCategory(long categoryId){
         EntityManager em = JpaConfig.getEntityManager();
         Category category= em.find(Category.class,categoryId);
-        return category.getBeers();
+        List<Beer> beers = new ArrayList<>();
+        if(category!=null){
+            beers = new ArrayList<>(category.getBeers());
+        }
+        em.close();
+        return beers;
 
     }
 
     public List<Beer> findBeersByBrewer(long brewerId){
         EntityManager em = JpaConfig.getEntityManager();
         Brewer brewer = em.find(Brewer.class,brewerId);
-        return brewer.getBeers();
+        List<Beer> beers = new ArrayList<>();
+        if(brewer != null){
+            beers = new ArrayList<>(brewer.getBeers());
+        }
+        em.close();
+        return beers;
     }
 
     public List<Beer> findBeersCheaperThan(double maxPrice){
         EntityManager em = JpaConfig.getEntityManager();
-        final List<Beer> maxPrice1 = em.createQuery("Select b from beer b where b.price > 0", Beer.class)
+        List<Beer> beers = em.createQuery("Select b from Beer b where b.price < :maxPrice", Beer.class)
                 .setParameter("maxPrice", maxPrice)
                 .getResultList();
-        return maxPrice1;
+        em.close();
+        return beers;
     }
 
 

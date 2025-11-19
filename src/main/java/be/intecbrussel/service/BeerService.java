@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static be.intecbrussel.MainApp.logger;
 import static be.intecbrussel.service.BrewerService.brewerRepository;
 
 public class BeerService {
@@ -23,7 +24,7 @@ public class BeerService {
         try{
             beerRepository.createBeer(beer);
         }catch(Exception e){
-            e.printStackTrace();
+            logger.warning("Beer creation failed");
         }
 
     }
@@ -33,19 +34,20 @@ public class BeerService {
            return beerRepository.findById(id);
 
         }catch(Exception e){
-            e.printStackTrace();
+            logger.warning("Beer getting failed");
+            return null;
         }
-        return Optional.empty();
+
     }
 
 
     public List<Beer> getAllBeers() throws SQLException {
         try{
-            beerRepository.findAll();
+            return beerRepository.findAll();
         }catch(Exception e){
-            e.printStackTrace();
+            logger.warning("Beers getting failed");
         }
-        return beerRepository.findAll();
+        return null;
     }
 
 
@@ -53,7 +55,7 @@ public class BeerService {
         try {
             beerRepository.update(beer);
         }catch(Exception e){
-            e.printStackTrace();
+            logger.warning("Beer update failed");
         }
     }
 
@@ -61,37 +63,51 @@ public class BeerService {
         try {
             beerRepository.delete(id);
         }catch(Exception e){
-            e.printStackTrace();
+            logger.warning("Beer ID not found");
         }
     }
 
     public void getBeersByCategory(Long categoryId) throws SQLException {
         try {
-            beerRepository.findBeersByCategory(categoryId);
+            List<Beer> beers = beerRepository.findBeersByCategory(categoryId);
+            if(beers.isEmpty()){
+                logger.info("No beers found with CategoryID: " + categoryId);
+            }else{
+                for(Beer c : beers){
+                    logger.info("Category ID: " + c.getCategory().getId() +
+                            ", Category Name: " + c.getCategory().getName() + ", Beer name: " + c.getName());
+                }
+            }
         }catch(Exception e){
-            e.printStackTrace();
+            logger.warning("Beers categories ID not found");
         }
     }
 
     public void getBeersByBrewery(Long breweryId) throws SQLException {
         try {
-            Brewer brewery = new Brewer();
-            Brewer brewer = em.find(Brewer.class, breweryId);
-            if (!brewer.getName().equals(brewery.getName())) {
-                beerRepository.findBeersByBrewer(breweryId);
+            List<Beer> beers = beerRepository.findBeersByBrewer(breweryId);
+            if (beers.isEmpty()) {
+                logger.info("No beers found with brewery id " + breweryId);
+            }else{
+                for (Beer b : beers) {
+                    logger.info("Brewer ID: " + breweryId + ", Brewer name: " + b.getBrewer().getName() + ", Beer name: " + b.getName());
+                }
             }
         }catch(Exception e){
-            e.printStackTrace();
+            logger.warning("Beers brewers ID not found");
         }
     }
 
     public void getBeersCheaperThan(double maxPrice) throws SQLException {
         try {
             if (maxPrice > 0) {
-                beerRepository.findBeersCheaperThan(maxPrice);
+                List<Beer> cheaperBeers = beerRepository.findBeersCheaperThan(maxPrice);
+                for(Beer beer : cheaperBeers) {
+                    logger.info("Beer cheaper is " + beer.getName() + " , price is " + beer.getPrice());
+                }
             }
         }catch(Exception e){
-            e.printStackTrace();
+            logger.warning("Beers is not cheaper ");
         }
     }
 }

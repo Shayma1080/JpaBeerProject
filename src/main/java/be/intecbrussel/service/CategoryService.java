@@ -7,6 +7,10 @@ import be.intecbrussel.repository.CategoryRepository;
 import jakarta.persistence.EntityManager;
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
+
+import static be.intecbrussel.MainApp.logger;
 
 public class CategoryService {
 
@@ -16,55 +20,51 @@ public class CategoryService {
     public void addCategory(Category category) throws SQLException {
         try {
             categoryRepository.createCategory(category);
-            em.close();
         }catch(Exception e) {
-            e.printStackTrace();
+            logger.warning("Category already exists");
         }
     }
 
-    public void getByIdCategory(Long id) throws SQLException {
+    public Optional<Category> getByIdCategory(Long id) throws SQLException {
         try {
-            categoryRepository.findById(id);
-            em.close();
+            return categoryRepository.findById(id);
         }catch(Exception e) {
-            e.printStackTrace();
+            logger.warning("Category ID not found");
+            return Optional.empty();
         }
     }
 
 
-    public void getAllCategories() throws SQLException {
+    public List<Category> getAllCategories() throws SQLException {
         try {
-            categoryRepository.findAll();
-            em.close();
+            return categoryRepository.findAll();
         }catch(Exception e) {
-            e.printStackTrace();
+            logger.warning("No Category found");
+            return null;
         }
     }
 
     public void updateCategory(Category category) throws SQLException {
         try {
             categoryRepository.update(category);
-            em.close();
         }catch(Exception e) {
-            e.printStackTrace();
+            logger.warning("Category update failed");
         }
     }
 
     public void removeCategory(Long id) throws SQLException {
         try {
             categoryRepository.delete(id);
-            em.close();
         }catch(Exception e) {
-            e.printStackTrace();
+            logger.warning("Category remove failed");
         }
     }
 
     public void getCategoryByName(String name) throws SQLException {
         try {
             categoryRepository.findCategoryByName(name);
-            em.close();
         }catch(Exception e) {
-            e.printStackTrace();
+            logger.warning("Category name not found");
         }
     }
 

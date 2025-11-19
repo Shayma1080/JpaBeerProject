@@ -19,6 +19,12 @@ public class Brewer {
     @Column(name = "Brewer_location")
     private String location;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "brewer")
     private List<Beer> beers;
+
+    public Brewer(String name, String location) {
+        this.id = id;
+        this.name = name;
+        this.location = location;
+    }
 }

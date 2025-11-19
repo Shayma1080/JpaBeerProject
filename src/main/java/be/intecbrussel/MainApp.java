@@ -2,13 +2,20 @@ package be.intecbrussel;
 
 import be.intecbrussel.config.JpaConfig;
 import be.intecbrussel.controller.BeerConctroller;
+import be.intecbrussel.controller.BrewerController;
+import be.intecbrussel.controller.CategoryController;
 import be.intecbrussel.model.Beer;
+import be.intecbrussel.model.Brewer;
+import be.intecbrussel.model.Category;
 import be.intecbrussel.service.BeerService;
+import be.intecbrussel.service.BrewerService;
+import be.intecbrussel.service.CategoryService;
 import jakarta.persistence.EntityManager;
 import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -19,6 +26,8 @@ public class MainApp {
 
     public static void main(String[] args) throws SQLException {
         BeerService beerService = new BeerService();
+        BrewerService brewerService = new BrewerService();
+        CategoryService categoryService = new CategoryService();
 
         //Hoofdmenu
         while (true) {
@@ -32,9 +41,9 @@ public class MainApp {
             int choice = scanner.nextInt();
             scanner.nextLine();
             switch (choice) {
-                case 1:
+                case 1: HandleBrewer(scanner, brewerService);
                     break;
-                case 2:
+                case 2: HandleCategory(scanner,categoryService);
                     break;
                 case 3:
                     HandleBeer(scanner, beerService);
@@ -70,33 +79,89 @@ public class MainApp {
                 break;
             case 3: BeerConctroller.findConctroller();
                 break;
-            case 4: BeerConctroller.findConctroller();
+            case 4: BeerConctroller.updateConctroller();
                 break;
-            case 5:
-                logger.info("Delete beer by ID: ");
-                Long beerIdDelete = scanner.nextLong();
-                scanner.nextLine();
-                beerService.removeBeer(beerIdDelete);
+            case 5: BeerConctroller.deleteConctroller();
                 break;
-            case 6:
-                logger.info("Find beer by Category: ");
-                Long beerCategoryIdDelete = scanner.nextLong();
-                scanner.nextLine();
-                beerService.getBeersByCategory(beerCategoryIdDelete);
+            case 6:BeerConctroller.beersByCategoryController();
                 break;
-            case 7:
-                logger.info("Find beer by Brewer: ");
-                Long beerBrewerIdDelete = scanner.nextLong();
-                scanner.nextLine();
-                beerService.getBeersByBrewery(beerBrewerIdDelete);
-                break;
-            case 8:
-                logger.info("Find beer cheaper than X: ");
-                double priceCheaper = scanner.nextDouble();
-                scanner.nextLine();
-                beerService.getBeersCheaperThan(priceCheaper);
+            case 7: BeerConctroller.beersByBreweryController();
+            case 8: BeerConctroller.beerCheaperThanConctroller();
                 break;
             case 9:
+                logger.info("Back");
+                MainApp.main(null);
+                break;
+        }
+    }
+
+    //Brewer submenu
+    public static void HandleBrewer(Scanner scanner, BrewerService brewerService) throws SQLException {
+        Brewer brewer = new Brewer();
+
+        logger.info("\n ===  Brewer Submenu  === ");
+        logger.info("1. Add Brewer");
+        logger.info("2. View All Brwers");
+        logger.info("3. Find Brewer by ID");
+        logger.info("4. Update Brewer");
+        logger.info("5. Delete Brewer");
+        logger.info("6. Find Brewer by name");
+        logger.info("7. Find Brewer with Beer count");
+        logger.info("8. Back");
+        logger.info("Enter your choice: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        switch (choice) {
+            case 1: BrewerController.addConctroller();
+                break;
+            case 2: BrewerController.viewConctroller();
+                break;
+            case 3: BrewerController.findConctroller();
+                break;
+            case 4: BrewerController.updateConctroller();
+                break;
+            case 5: BrewerController.deleteConctroller();
+                break;
+           case 6: BrewerController.brewerByNameController();
+                break;
+            case 7: BrewerController.allBrewersWithBeerCountController();
+                break;
+            case 8:
+                logger.info("Back");
+                MainApp.main(null);
+                break;
+        }
+    }
+
+    //Category submenu
+    public static void HandleCategory(Scanner scanner, CategoryService categoryService) throws SQLException {
+        Category category = new Category();
+
+        logger.info("\n ===  Category Submenu  === ");
+        logger.info("1. Add Category");
+        logger.info("2. View All Category");
+        logger.info("3. Find Category by ID");
+        logger.info("4. Update Category");
+        logger.info("5. Delete Category");
+        logger.info("6. Find Category by name");
+        logger.info("7. Back");
+        logger.info("Enter your choice: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        switch (choice) {
+            case 1: CategoryController.addConctroller();
+                break;
+            case 2: CategoryController.viewConctroller();
+                break;
+            case 3: CategoryController.findConctroller();
+                break;
+            case 4: CategoryController.updateConctroller();
+                break;
+            case 5: CategoryController.deleteConctroller();
+                break;
+            case 6: CategoryController.categoryByNameController();
+                break;
+            case 7:
                 logger.info("Back");
                 MainApp.main(null);
                 break;

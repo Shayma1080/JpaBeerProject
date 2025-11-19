@@ -45,7 +45,13 @@ public class BeerConctroller {
         logger.info("Find beer by ID: ");
         Long findBeerId = scanner.nextLong();
         scanner.nextLine();
-        beerService.getByIdBeer(findBeerId);
+        Optional<Beer> beeropt = beerService.getByIdBeer(findBeerId);
+        if(beeropt.isPresent()) {
+            Beer foundBeer = beeropt.get();
+            logger.info("Found beer by ID: " + foundBeer.getName());
+        }else{
+            logger.info("No beer found with ID: " + findBeerId);
+        }
     }
 
     public static void updateConctroller() throws SQLException {
@@ -55,8 +61,44 @@ public class BeerConctroller {
         logger.info("Update beer price: ");
         double newPrice = scanner.nextDouble();
         scanner.nextLine();
+
         Optional<Beer> bieropt = beerService.getByIdBeer(beerid);
-        beer.setPrice(newPrice);
-        beerService.updatebeer(beer);
+
+        if(bieropt.isPresent()) { // is id present in java code --> ja
+            Beer foundBeer = bieropt.get(); // maak object van
+            foundBeer.setPrice(newPrice); // verander prijs van object
+            beerService.updatebeer(foundBeer); // update object meet nieuw prijs
+            logger.info("For Beer ID: " + beerid + " is now price updated to: " + newPrice);
+        }
+
+    }
+
+    public static void deleteConctroller() throws SQLException {
+        logger.info("Delete beer by ID: ");
+        Long beerIdDelete = scanner.nextLong();
+        scanner.nextLine();
+        beerService.removeBeer(beerIdDelete);
+        logger.info("Beer ID: " + beerIdDelete + " is now deleted" );
+    }
+
+    public static void beersByCategoryController() throws SQLException {
+        logger.info("Find beer by CategoryID: ");
+        Long beerCategoryIdDelete = scanner.nextLong();
+        scanner.nextLine();
+        beerService.getBeersByCategory(beerCategoryIdDelete);
+    }
+
+    public static void beersByBreweryController() throws SQLException {
+        logger.info("Find beer by BrewerID: ");
+        Long beerBrewerId = scanner.nextLong();
+        scanner.nextLine();
+        beerService.getBeersByBrewery(beerBrewerId);
+    }
+
+    public static void beerCheaperThanConctroller() throws SQLException {
+        logger.info("Find beer cheaper than: ");
+        double priceCheaper = scanner.nextDouble();
+        scanner.nextLine();
+        beerService.getBeersCheaperThan(priceCheaper);
     }
 }

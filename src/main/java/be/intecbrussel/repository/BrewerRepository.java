@@ -16,19 +16,19 @@ public class BrewerRepository {
         em.getTransaction().begin();
         em.persist(brewer);
         em.getTransaction().commit();
+        em.close();
     }
-    public void findById(Long id){
+    public Optional<Brewer> findById(Long id){
         EntityManager em = JpaConfig.getEntityManager();
-        em.getTransaction().begin();
         Brewer brewer = em.find(Brewer.class, id);
-        em.getTransaction().commit();
+        em.close();
+        return Optional.ofNullable(brewer);
     }
 
     public List<Brewer> findAll(){
         EntityManager em = JpaConfig.getEntityManager();
-        em.getTransaction().begin();
         List<Brewer> brewer = em.createQuery( "select b from Brewer b").getResultList();
-        em.getTransaction().commit();
+        em.close();
         return brewer;
     }
     public void update(Brewer brewer) {
@@ -39,15 +39,24 @@ public class BrewerRepository {
     }
     public void delete(Long id) {
         EntityManager em = JpaConfig.getEntityManager();
-        em.getTransaction().begin();
         Brewer brewer = em.find(Brewer.class, id);
-        brewer = em.merge(brewer);
-        em.getTransaction().commit();
+
+        if(brewer != null){
+            em.getTransaction().begin();
+            em.merge(brewer);
+            em.remove(brewer);
+            em.getTransaction().commit();
+        }
+        em.close();
     }
-    public Optional<Brewer> findBrewersByName(String name){
+    public List<Brewer> findBrewersByName(String name){
         EntityManager em = JpaConfig.getEntityManager();
-        Brewer brewer = em.find(Brewer.class,name);
-        return Optional.ofNullable(brewer);
+        List<Brewer> brewerName = em.createQuery("select b from Brewer b where b.name = :name")
+                .setParameter("name", name)
+                .getResultList();
+        em.close();
+        return brewerName;
+
     }
 
     public List<Object[]> findAllBrewersWithBeerCount(){

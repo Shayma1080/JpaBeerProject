@@ -5,6 +5,7 @@ import lombok.*;
 import java.util.List;
 
 @Data
+@ToString(exclude = "beers")
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -19,6 +20,11 @@ public class Category {
     @Column(name = "Category_description")
     private String description;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "category")
     private List<Beer> beers;
+
+    public Category(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

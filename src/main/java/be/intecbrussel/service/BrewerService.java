@@ -8,6 +8,11 @@ import be.intecbrussel.repository.BrewerRepository;
 import jakarta.persistence.EntityManager;
 
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import static be.intecbrussel.MainApp.logger;
 
 public class BrewerService {
     public static final BrewerRepository brewerRepository = new BrewerRepository();
@@ -17,43 +22,43 @@ public class BrewerService {
         try {
             brewerRepository.createBrewer(brewer);
         }catch(Exception e) {
-            e.printStackTrace();
+            logger.warning("Brewer creation failed");
         }
     }
 
-    public void getByIdBrewer(Long id) throws SQLException {
+    public Optional<Brewer> getByIdBrewer(Long id) throws SQLException {
         try {
-            brewerRepository.findById(id);
+           return brewerRepository.findById(id);
         }catch(Exception e) {
-            e.printStackTrace();
+            logger.warning("Brewer getting id not found");
+            return Optional.empty();
         }
     }
 
 
-    public void getAllBrewers() throws SQLException {
+    public List<Brewer> getAllBrewers() throws SQLException {
         try {
-            brewerRepository.findAll();
+            return brewerRepository.findAll();
         }catch(Exception e) {
-            e.printStackTrace();
+            logger.warning("Brewer getting all brewers not found");
+            return null;
         }
+
     }
 
     public void updateBrewer(Brewer brewer) throws SQLException {
         try {
             brewerRepository.update(brewer);
         }catch(Exception e) {
-            e.printStackTrace();
+            logger.info("Brewer update failed");
         }
     }
 
     public void removeBrewer(Long id) throws SQLException {
         try {
-            Category category = new Category();
-            if (id != category.getId()) {
-                brewerRepository.delete(id);
-            }
+            brewerRepository.delete(id);
         }catch(Exception e) {
-            e.printStackTrace();
+            logger.warning("Brewer with id " + id + " not found");
         }
     }
 
@@ -61,15 +66,16 @@ public class BrewerService {
         try {
             brewerRepository.findBrewersByName(name);
         }catch(Exception e) {
-            e.printStackTrace();
+            logger.warning("Brewer name not found: " + name);
         }
     }
 
-    public void getAllBrewersWithBeerCount() throws SQLException {
+    public List<Object[]> getAllBrewersWithBeerCount() throws SQLException {
         try {
-            brewerRepository.findAllBrewersWithBeerCount();
+            return brewerRepository.findAllBrewersWithBeerCount();
         }catch(Exception e) {
-            e.printStackTrace();
+            logger.warning("Brewer count not found");
+            return null;
         }
     }
 
