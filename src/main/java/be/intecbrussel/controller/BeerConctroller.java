@@ -4,6 +4,7 @@ import be.intecbrussel.MainApp;
 import be.intecbrussel.config.JpaConfig;
 import be.intecbrussel.model.Beer;
 import be.intecbrussel.service.BeerService;
+import be.intecbrussel.service.JsonService;
 import jakarta.persistence.EntityManager;
 
 import java.sql.SQLException;
@@ -100,5 +101,12 @@ public class BeerConctroller {
         double priceCheaper = scanner.nextDouble();
         scanner.nextLine();
         beerService.getBeersCheaperThan(priceCheaper);
+    }
+
+    public static void exportBeersController() throws SQLException {
+        JsonService jsonService = new JsonService();
+        BeerService beerService = new BeerService();
+        var beers = beerService.getAllBeers();
+        jsonService.exportBeers(beers,"beers.json");
     }
 }

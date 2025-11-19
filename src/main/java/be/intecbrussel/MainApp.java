@@ -45,8 +45,7 @@ public class MainApp {
                     break;
                 case 2: HandleCategory(scanner,categoryService);
                     break;
-                case 3:
-                    HandleBeer(scanner, beerService);
+                case 3: HandleBeer(scanner, beerService);
                     break;
                 case 4:
                     logger.info("GoodBy! ");
@@ -68,7 +67,8 @@ public class MainApp {
         logger.info("6. Find Beers by Category");
         logger.info("7. Find Beers by Brewer");
         logger.info("8. Find Beers cheaper than X");
-        logger.info("9. Back");
+        logger.info("9. Export beers to Json");
+        logger.info("10. Back");
         logger.info("Enter your choice: ");
         int choice = scanner.nextInt();
         scanner.nextLine();
@@ -88,7 +88,9 @@ public class MainApp {
             case 7: BeerConctroller.beersByBreweryController();
             case 8: BeerConctroller.beerCheaperThanConctroller();
                 break;
-            case 9:
+            case 9 : BeerConctroller.exportBeersController();
+                break;
+            case 10:
                 logger.info("Back");
                 MainApp.main(null);
                 break;
