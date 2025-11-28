@@ -24,12 +24,22 @@ public class BeerRepository {
     }
     public Optional<Beer> findById(Long id){
         EntityManager em = JpaConfig.getEntityManager();
-        if(id >=0){
+//        if(id >=0){
+//            Beer beer = em.find(Beer.class, id);
+//            return Optional.of(beer);
+//        }
+//        em.close();
+//        return Optional.empty();
+
+        //verbetering
+        try {
+            if (id == null || id < 0)
+                return Optional.empty();
             Beer beer = em.find(Beer.class, id);
-            return Optional.of(beer);
+            return Optional.ofNullable(beer);
+        }finally {
+            em.close();
         }
-        em.close();
-        return Optional.empty();
     }
 
     public List<Beer> findAll(){

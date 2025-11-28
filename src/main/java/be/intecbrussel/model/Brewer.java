@@ -19,11 +19,10 @@ public class Brewer {
     @Column(name = "Brewer_location")
     private String location;
 
-    @OneToMany(mappedBy = "brewer", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "brewer", fetch = FetchType.LAZY) // Lazy beter want EAGER is zwaar
     private List<Beer> beers;
 
     public Brewer(String name, String location) {
-        this.id = id;
         this.name = name;
         this.location = location;
     }
